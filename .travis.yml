@@ -7,8 +7,8 @@ script:
   - sudo apt-get update -qq
   - sudo apt-get install -y complx-tools
   - sudo apt-get install -y build-essential g++ cmake libboost-all-dev libglib2.0-dev castxml 
-  - sudo pip install enum34 six scikit-build
-  - sudo pip install pyLC3
+  - pip install enum34 six scikit-build parameterized
+  - pip install pyLC3
   - sudo ldconfig
   - mkdir build && cd build
   - cmake ..
