@@ -3,7 +3,7 @@ import unittest
 from pyLC3.unittests.lc3_unit_test_case import MemoryFillStrategy
 from decorators import parameterize
 
-class SimpleAddTest(pyLC3.LC3UnitTestCase):
+class SimpleSumTest(pyLC3.LC3UnitTestCase):
 
     cases = [
         [[]],
@@ -16,7 +16,7 @@ class SimpleAddTest(pyLC3.LC3UnitTestCase):
     ]
 
     @parameterize(cases, 'SUM({0})')
-    def testAdd(self, arr):
+    def testSum(self, arr):
         #-----------------------------------------------------------------------
         # Initialization / Loading Step
         #-----------------------------------------------------------------------
