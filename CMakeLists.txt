@@ -25,4 +25,5 @@ make_test(simple_sum_test simple_sum/simple_sum_test.py)
 make_test(simple_string_test simple_string/simple_string_test.py)
 make_test(simple_io_test simple_io/simple_io_test.py)
 make_test(double_subr_test lc3_calling_convention_basic/double_subr_test.py)
+make_test(mccarthy91_test lc3_calling_convention_recursive/mccarthy91_test.py)
 
