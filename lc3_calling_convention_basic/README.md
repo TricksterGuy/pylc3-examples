@@ -1,4 +1,4 @@
-lc3 calling convention
+lc3 calling convention_basic
 ===
 
 This demo just showcases how to check a subroutine that uses the lc3 calling
