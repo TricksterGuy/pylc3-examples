@@ -2,6 +2,7 @@ import pyLC3
 import unittest
 # Changed in 0.9.0, MemoryFillStrategy is now in the pyLC3 module.
 #from pyLC3.unittests.lc3_unit_test_case import MemoryFillStrategy
+import pyLC3.pylc3 as pyLC3Constants
 # Changed in 0.9.0, This was used by TAs at georgia tech to name test cases
 # this mechanism is now integrated with the soft assertion system.
 #from decorators import parameterize
@@ -51,9 +52,10 @@ class SimpleAddTest(pyLC3.LC3UnitTestCase):
         # 3) Give every memory address a random value.
 
         # Here option 2 is done and every memory address gets a random value.
-        self.init(pyLC3.MemoryFillStrategy.random_fill_with_seed, 10)
+        self.init(pyLC3Constants.MemoryFillStrategy.single_random_value_fill, 10)
 
-        # Load the assembly file, if it fails to load then the test fails.
+        # Load the assembly file, if it fails to load then the test immediately
+        # ends. It is a fatal assertion meaning we can't continue the test.
         self.loadAsmFile('simple_add.asm')
 
         #-----------------------------------------------------------------------
@@ -102,11 +104,15 @@ class SimpleAddTest(pyLC3.LC3UnitTestCase):
         # executes an invalid instruction the simulator will end the program.
         # This checks if the lc-3 was halted via a HALT instruction.
         
-        # A note on hard assertions vs soft assertions, by default failing this
+        # A note on fatal vs hard vs soft assertions, by default failing this
         # assertion will be treated as a hard assertion fail. Hard assertions when
         # they fail will make all subsequent assertions not be checked (but still
         # are logged to the json test report). The only other default hard
-        # assertion is assertReturned.
+        # assertion is assertReturned. Fatal assertions on the other hand will
+        # act as a normal assertion does in a unittest framework. The test
+        # immediately ends if it fails, the only fatal assertion is loadAsmFile
+        # since if that fails no other functions will work correctly.
+
         self.assertHalted()
         # This checks if the code produced no runtime warning messages.
         # Some common warnings are if the code accesses or writes to memory in
@@ -120,6 +126,40 @@ class SimpleAddTest(pyLC3.LC3UnitTestCase):
         # of the test in LC3UnitTestCase.tearDown will the check to make sure no
         # assertions failed was made and then it will fail the test. The failure
         # message will include all of the assertions that failed.
+
+        # For each test case the JSON file will include the following 5 checks given the
+        # assertions made in this test. For instance if the only test case was 19, 7 the
+        # JSON file will look exactly like below.
+
+        #{
+        #"SimpleAddTest":[
+        #{
+        #       "display-name":"ADD(19,7)/assembles",
+        #       "passed":true
+        # },
+        #{
+        #        "display-name":"ADD(19,7)/version",
+        #        "passed":true
+        # },
+        #{
+        #        "display-name":"ADD(19,7)/halted",
+        #        "passed":true
+        # },
+        # {
+        #        "display-name":"ADD(19,7)/warnings",
+        #        "passed":true
+        #},
+        #{
+        #        "display-name":"ADD(19,7)/value: ANS",
+        #        "passed":true
+        #}]}
+
+        # assembles  - Did the file assemble, if this fails then it will be the only thing
+        #              present for that test case.
+        # version    - Using the correct version of the LC3. Can be ignored.
+        # halted     - Did the program run correctly, this is also a hard assertion.
+        # warnings   - Did the program run without causing a warning.
+        # value: ANS - Was the value at location ANS correct.
 
 
 if __name__ == '__main__':
