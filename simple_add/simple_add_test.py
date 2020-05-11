@@ -1,14 +1,40 @@
 import pyLC3
 import unittest
-from pyLC3.unittests.lc3_unit_test_case import MemoryFillStrategy
-from decorators import parameterize
+# Changed in 0.9.0, MemoryFillStrategy is now in the pyLC3 module.
+#from pyLC3.unittests.lc3_unit_test_case import MemoryFillStrategy
+# Changed in 0.9.0, This was used by TAs at georgia tech to name test cases
+# this mechanism is now integrated with the soft assertion system.
+#from decorators import parameterize
+from parameterized import parameterized
 
 class SimpleAddTest(pyLC3.LC3UnitTestCase):
 
-    cases = [(5,5), (3,6), (15,10), (24,27), (36,16), (1,1), (15,25), (19,7)]
-
-    @parameterize(cases, 'ADD({0}, {1})')
+    @parameterized.expand([
+        (5,5),
+        (3,6),
+        (15,10),
+        (24,27),
+        (36,16),
+        (1,1),
+        (15,25),
+        (19,7)
+    ])
     def testAdd(self, a, b):
+        #-----------------------------------------------------------------------
+        # Test setup
+        #-----------------------------------------------------------------------
+        # New in 0.9.0. For soft assertions to work, it is required to set
+        # self.display_name to the name of the specific test case.
+        # At the end of the test a JSON file is generated with all the results.
+        # and partial credit can be rewarded for specific assertions and test
+        # case name.
+        #
+        # The individual assertions will be named ADD(a,b)/assertionName.
+        # For instance with the assertHalted below it will be named assuming 
+        # a=5, b=5.
+        # ADD(5,5)/halted
+        self.display_name = 'ADD(%d,%d)' % (a, b)
+
         #-----------------------------------------------------------------------
         # Initialization / Loading Step
         #-----------------------------------------------------------------------
@@ -25,7 +51,7 @@ class SimpleAddTest(pyLC3.LC3UnitTestCase):
         # 3) Give every memory address a random value.
 
         # Here option 2 is done and every memory address gets a random value.
-        self.init(MemoryFillStrategy.random_fill_with_seed, 10)
+        self.init(pylc3.MemoryFillStrategy.random_fill_with_seed, 10)
 
         # Load the assembly file, if it fails to load then the test fails.
         self.loadAsmFile('simple_add.asm')
@@ -75,6 +101,12 @@ class SimpleAddTest(pyLC3.LC3UnitTestCase):
         # The underlying C++ library (liblc3) has a mode where if the simulator
         # executes an invalid instruction the simulator will end the program.
         # This checks if the lc-3 was halted via a HALT instruction.
+        
+        # A note on hard assertions vs soft assertions, by default failing this
+        # assertion will be treated as a hard assertion fail. Hard assertions when
+        # they fail will make all subsequent assertions not be checked (but still
+        # are logged to the json test report). The only other default hard
+        # assertion is assertReturned.
         self.assertHalted()
         # This checks if the code produced no runtime warning messages.
         # Some common warnings are if the code accesses or writes to memory in
@@ -83,6 +115,11 @@ class SimpleAddTest(pyLC3.LC3UnitTestCase):
         # This checks if the value at label answer is equal to the expected
         # value. 
         self.assertValue('ANS', a + b)
+
+        # None of the above assertions will stop the test if they fail. At the end
+        # of the test in LC3UnitTestCase.tearDown will the check to make sure no
+        # assertions failed was made and then it will fail the test. The failure
+        # message will include all of the assertions that failed.
 
 
 if __name__ == '__main__':
