@@ -1,11 +1,17 @@
 import pyLC3
 import unittest
-from pyLC3.unittests.lc3_unit_test_case import MemoryFillStrategy
-from decorators import parameterize
+# Changed in 0.9.0, MemoryFillStrategy is now in the pyLC3 module.
+#from pyLC3.unittests.lc3_unit_test_case import MemoryFillStrategy
+import pyLC3.pylc3 as pyLC3Constants
+# Changed in 0.9.0, This was used by TAs at georgia tech to name test cases
+# this mechanism is now integrated with the soft assertion system.
+#from decorators import parameterize
+from parameterized import parameterized
+
 
 class SimpleIOTest(pyLC3.LC3UnitTestCase):
 
-    cases = [
+    @parameterized.expand([
         [""],
         [" "],
         ["aaaa"],
@@ -13,10 +19,18 @@ class SimpleIOTest(pyLC3.LC3UnitTestCase):
         ["ABC"],
         ["HeLlO"],
         ["littleComputer3IsSoCoOoOoLio"],
-    ]
-
-    @parameterize(cases, 'IO "{0}"')
+    ])
     def testIO(self, s):
+        #-----------------------------------------------------------------------
+        # Test setup
+        #-----------------------------------------------------------------------
+        # New in 0.9.0. For soft assertions to work, it is required to set
+        # self.display_name to the name of the specific test case.
+        # At the end of the test a JSON file is generated with all the results.
+        # and partial credit can be rewarded for specific assertions and test
+        # case name.
+        self.display_name = 'IO %s' % s
+
         #-----------------------------------------------------------------------
         # Initialization / Loading Step
         #-----------------------------------------------------------------------
@@ -34,7 +48,7 @@ class SimpleIOTest(pyLC3.LC3UnitTestCase):
 
         # Here option 1 is done filling each memory address with the HALT
         # instruction (TRAP x25)
-        self.init(MemoryFillStrategy.fill_with_value, 0xF025)
+        self.init(pyLC3Constants.MemoryFillStrategy.fill_with_value, 0xF025)
 
         # Load the assembly file, if it fails to load then the test fails.
         self.loadAsmFile('simple_io.asm')
@@ -87,6 +101,10 @@ class SimpleIOTest(pyLC3.LC3UnitTestCase):
         # unlike simple_string_test.py the output should not end with a nul
         # terminator character.
         answer = ''.join([e for e in s if e >= 'A' and e <= 'Z'])
+        #
+        # To reference this in the json file it will be named
+        # IO string/console output
+        # i.e. IO aaaa/console output
         self.assertConsoleOutput(answer)
 
 
