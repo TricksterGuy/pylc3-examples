@@ -1,11 +1,16 @@
 import pyLC3
 import unittest
-from pyLC3.unittests.lc3_unit_test_case import MemoryFillStrategy
-from decorators import parameterize
+# Changed in 0.9.0, MemoryFillStrategy is now in the pyLC3 module.
+#from pyLC3.unittests.lc3_unit_test_case import MemoryFillStrategy
+import pyLC3.pylc3 as pyLC3Constants
+# Changed in 0.9.0, This was used by TAs at georgia tech to name test cases
+# this mechanism is now integrated with the soft assertion system.
+#from decorators import parameterize
+from parameterized import parameterized
 
 class SimpleSumTest(pyLC3.LC3UnitTestCase):
 
-    cases = [
+    @parameterized.expand([
         [[]],
         [[1]],
         [[5]],
@@ -13,10 +18,18 @@ class SimpleSumTest(pyLC3.LC3UnitTestCase):
         [[1, 5, 2, 4, 8, 3, 2, 1, 11, 123]],
         [[32767, 1]],
         [[-1, -1]],
-    ]
-
-    @parameterize(cases, 'SUM({0})')
+    ])
     def testSum(self, arr):
+        #-----------------------------------------------------------------------
+        # Test setup
+        #-----------------------------------------------------------------------
+        # New in 0.9.0. For soft assertions to work, it is required to set
+        # self.display_name to the name of the specific test case.
+        # At the end of the test a JSON file is generated with all the results.
+        # and partial credit can be rewarded for specific assertions and test
+        # case name.
+        self.display_name = 'SUM(%s)' % arr
+
         #-----------------------------------------------------------------------
         # Initialization / Loading Step
         #-----------------------------------------------------------------------
@@ -33,7 +46,7 @@ class SimpleSumTest(pyLC3.LC3UnitTestCase):
         # 3) Give every memory address a random value.
 
         # Here option 1 is done and every memory address gets the value xBABA.
-        self.init(MemoryFillStrategy.fill_with_value, 0xBABA)
+        self.init(pyLC3Constants.MemoryFillStrategy.fill_with_value, 0xBABA)
 
         # Load the assembly file, if it fails to load then the test fails.
         self.loadAsmFile('simple_sum.asm')
@@ -93,10 +106,17 @@ class SimpleSumTest(pyLC3.LC3UnitTestCase):
         self.assertNoWarnings()
         # Much like with setPointer, assertPointer also exists. This assertion
         # will check if the value contained at the memory address contained in
-        # ANSWER_LOC is the specified value. 
+        # ANSWER_LOC is the specified value.
+        
+        # To reference this in the json file it will be named
+        # SUM(arr)/pointer: ANSWER_LOC
         self.assertPointer('ANSWER_LOC', sum(arr) & 0xFFFF)
+
         # And assertArray exists as well instead of setting an array it will
         # check the array given.
+
+        # To reference this in the json file it will be named
+        # SUM(arr)/array: ARRAY_LOC
         self.assertArray('ARRAY_LOC', arr)
 
 
