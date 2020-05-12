@@ -52,6 +52,7 @@ class SimpleAddTest(pyLC3.LC3UnitTestCase):
         # 3) Give every memory address a random value.
 
         # Here option 2 is done and every memory address gets a random value.
+        # 10 here is the random seed used.
         self.init(pyLC3Constants.MemoryFillStrategy.single_random_value_fill, 10)
 
         # Load the assembly file, if it fails to load then the test immediately
