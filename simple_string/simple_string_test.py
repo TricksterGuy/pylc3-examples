@@ -1,11 +1,17 @@
 import pyLC3
 import unittest
-from pyLC3.unittests.lc3_unit_test_case import MemoryFillStrategy
-from decorators import parameterize
+# Changed in 0.9.0, MemoryFillStrategy is now in the pyLC3 module.
+#from pyLC3.unittests.lc3_unit_test_case import MemoryFillStrategy
+import pyLC3.pylc3 as pyLC3Constants
+# Changed in 0.9.0, This was used by TAs at georgia tech to name test cases
+# this mechanism is now integrated with the soft assertion system.
+#from decorators import parameterize
+from parameterized import parameterized
+
 
 class SimpleStringTest(pyLC3.LC3UnitTestCase):
 
-    cases = [
+    @parameterized.expand([
         [""],
         ["a"],
         [" "],
@@ -14,10 +20,18 @@ class SimpleStringTest(pyLC3.LC3UnitTestCase):
         ["c p"],
         ["l o l"],
         ["a man a plan a canal panama"],
-    ]
-
-    @parameterize(cases, 'REMOVE_SPACES("{0}")')
+    ])
     def testRemoveWhitespace(self, s):
+        #-----------------------------------------------------------------------
+        # Test setup
+        #-----------------------------------------------------------------------
+        # New in 0.9.0. For soft assertions to work, it is required to set
+        # self.display_name to the name of the specific test case.
+        # At the end of the test a JSON file is generated with all the results.
+        # and partial credit can be rewarded for specific assertions and test
+        # case name.
+        self.display_name = 'REMOVE_WHITESPACE("%s")' % s
+
         #-----------------------------------------------------------------------
         # Initialization / Loading Step
         #-----------------------------------------------------------------------
@@ -35,7 +49,7 @@ class SimpleStringTest(pyLC3.LC3UnitTestCase):
 
         # Here option 3 is done and every memory address is randomized with seed
         # 2110.
-        self.init(MemoryFillStrategy.completely_random_with_seed, 2110)
+        self.init(pyLC3Constants.MemoryFillStrategy.completely_random, 2110)
 
         # Load the assembly file, if it fails to load then the test fails.
         self.loadAsmFile('simple_string.asm')
@@ -96,7 +110,10 @@ class SimpleStringTest(pyLC3.LC3UnitTestCase):
         # will check if the value contained at the memory address contained in
         # STRING_LOC is the specified value.
         #
-        # Note that the assembly code must write a nul terminator character. 
+        # Note that the assembly code must write a nul terminator character.
+
+        # To reference this in the json file it will be named
+        # REMOVE_WHITESPACE(str)/string: STRING_LOC
         self.assertString('STRING_LOC', s.replace(' ', ''))
 
 
