@@ -118,6 +118,8 @@ class DoubleSubroutineTest(pyLC3.LC3UnitTestCase):
         # clobbered, but others may decide to check all registers.
         # To reference this assertion in the JSON it is
         # test_name/registers unchanged
+        #
+        # Note by default all registers aside from R6 are checked.
         self.assertRegistersUnchanged([5, 7])
         # This assert checks if:
         # 1) R6 ended up being decremented by 1 by the end of the subroutine
