@@ -13,11 +13,6 @@ function(make_test TEST TEST_FILE)
         COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_FILE}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${PARENT_DIR}
     )
-    set_property(
-        TEST ${TEST}
-        APPEND PROPERTY
-        ENVIRONMENT PYTHONPATH=${CMAKE_CURRENT_SOURCE_DIR}/util
-    )
 endfunction(make_test TEST TEST_FILE)
 
 make_test(simple_add_test simple_add/simple_add_test.py)
