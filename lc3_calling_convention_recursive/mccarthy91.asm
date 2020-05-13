@@ -13,13 +13,10 @@
 .orig x3000
     ; In assembly templates we give to students we don't give the code to set up
     ; the stack as the GUI simulator can do that via
-    ; Debug > Simulate Subroutine Call. In order for that to work there needs to
-    ; exist a HALT statement as it will set R7 to go to the address of the HALT
-    ; instruction.
+    ; Debug > Simulate Subroutine Call.
     ;
-    ; The reasoning for this is if students get this part wrong, then the whole
+    ; The reasoning for this is if students get that part wrong, then the whole
     ; subroutine will fail to work when tested in pylc3.
-    HALT
 
     ; Subroutine begins here. pylc3 will start executing the subroutine
     ; beginning here by satisfying the preconditions of the lc3 calling
