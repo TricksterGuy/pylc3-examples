@@ -12,9 +12,6 @@ parameter.
 At the time we return from the subroutine R6 will point to the answer followed
 by the parameters from that subroutine.
 
-This demo demonstrates a subroutine with a variable number of arguments and it
-simply sums all of the parameters and returns double that.
-
 This demo demonstrates a subroutine that is recursive with a single argument,
 the famous McCarthy91 function which always returns 91. This demo will show how
 to expect a particular subroutine call that must be made to ensure the high

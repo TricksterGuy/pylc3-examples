@@ -59,16 +59,14 @@ class McCarthy91Test(pyLC3.LC3UnitTestCase):
         # call, or giving the lc-3 some console input to use for execution.
         # ----------------------------------------------------------------------
         
-        # Call a subroutine named DOUBLE with the arguments given.
+        # Call a subroutine named DOUBLE with the arguments given in registers.
         # This will perform the following:
         # PC = MCCARTHY91
+        # R0 = n
         # R7 = a Dummy Value (default x8000)
         # R6 = a Dummy Value (default xF000)
-        # R5 = a Dummy Value (default xCAFE)
-        # MEM[R6] = n
-        #
         # A breakpoint is placed at whatever address R7 is pointing to.
-        self.callSubroutine('MCCARTHY91', params=[n])
+        self.callSubroutine('MCCARTHY91', params={0: n})
         
         # Expect subroutine calls to be made. This is important especially for
         # recursive subroutine verification as if this is left off the grader
@@ -85,9 +83,9 @@ class McCarthy91Test(pyLC3.LC3UnitTestCase):
         if n < 100:
             # If we aren't the base case then we will call once with n + 11
             # and then 91 if the base case of the recursive call wasn't made.
-            self.expectSubroutineCall('MCCARTHY91', [n + 11])
+            self.expectSubroutineCall('MCCARTHY91', {0: n + 11})
             self.expectSubroutineCall('MCCARTHY91', 
-                [91 if n + 11 < 100 else n + 1])
+                {0: 91 if n + 11 < 100 else n + 1})
 
         #-----------------------------------------------------------------------
         # Run Step
@@ -120,19 +118,19 @@ class McCarthy91Test(pyLC3.LC3UnitTestCase):
         # privileged regions of memory.
         self.assertNoWarnings()
 
-        # This assert checks if the value at MEM[R6] (which is the return value)
-        # is the correct answer.
-        self.assertReturnValue(n - 10 if n > 100 else 91)
+        # *NOTICE* Unlike the lc3_calling_convention_recursive example we don't use
+        # assertReturnValue, that function is exclusively for verifying a
+        # subroutine that uses the lc3 calling convention method of subroutine
+        # calls.
+
+        # Instead we use assertRegister since the return value will be in a register.
+        self.assertRegister(1, n - 10 if n > 100 else 91)
+
         # This assert checks if any registers are clobbered (value changed as a
-        # side effect of subroutine). At the very least R5 and R7 should not be
-        # clobbered, but others may decide to check all registers.
-        self.assertRegistersUnchanged([5, 7])
-        # This assert checks if R6 ended up being decremented by 1 by the end of
-        # the subroutine, it needs the expected stack value along with the
-        # dummy values in R5 (old frame pointer) and R7 (return address).
-        self.assertStackManaged(stack=0xEFFE,
-                                return_address=0x8000,
-                                old_frame_pointer=0xCAFE)
+        # side effect of subroutine). We'd expect all other registers other than
+        # the register being used as a return value to not change.
+        self.assertRegistersUnchanged([0, 2, 3, 4, 5, 6, 7])
+
         # The last assert checks if the appropriate subroutine calls were made.
         # In pylc3 subroutine call verification is only done with the top level
         # function calls and not all of them, we do this by inductive reasoning.

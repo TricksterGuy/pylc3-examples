@@ -24,4 +24,5 @@ make_test(linked_list_test linked_list/linked_list_test.py)
 make_test(double_subr_test lc3_calling_convention_basic/double_subr_test.py)
 make_test(add_chars_test lc3_calling_convention_extra/add_chars_test.py)
 make_test(mccarthy91_test lc3_calling_convention_recursive/mccarthy91_test.py)
+make_test(mccarthy91_pbr_test subroutine_pass_by_regs/mccarthy91_test.py)
 
