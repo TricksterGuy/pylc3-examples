@@ -100,6 +100,9 @@ class SimpleIOTest(pyLC3.LC3UnitTestCase):
         # This checks if the console output produced matches exactly. Note that
         # unlike simple_string_test.py the output should not end with a nul
         # terminator character.
+        #
+        # And don't worry no console output is echo'd to the screen when ran.
+        # pyLC3 will automatically consume console output and store it.
         answer = ''.join([e for e in s if e >= 'A' and e <= 'Z'])
         #
         # To reference this in the json file it will be named
