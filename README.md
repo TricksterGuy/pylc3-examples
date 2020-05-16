@@ -1,5 +1,5 @@
 # pylc3-examples
-[![Travis CI Build Status](https://travis-ci.org/TricksterGuy/pylc3-examples.svg?branch=master)](https://travis-ci.org/TricksterGuy/pylc3-examples) [![Travis CI Build Status](https://travis-ci.org/TricksterGuy/pylc3-examples.svg?branch=py3)](https://travis-ci.org/TricksterGuy/pylc3-examples)
+[![Travis CI Build Status](https://travis-ci.org/TricksterGuy/pylc3-examples.svg?branch=master)](https://travis-ci.org/TricksterGuy/pylc3-examples)
 
 Example pylc3 testers and lc-3 assembly code for documention for pyLC3 0.9.1
 
@@ -15,6 +15,7 @@ The examples should be viewed in the following order.
 7) [lc3_calling_convention_basic] - This example demonstrates how pyLC3 handles testing subroutines using the lc3 calling convention described in the textbook. The test code shows a subroutine that takes a variable number of arguments and returns double the sum of the arguments.
 8) [lc3_calling_convention_extra] - This example shows how to test a subroutine that takes in something other than integers. Addresses to strings and arrays are passed into the function, and special methods are used to dump data at a specific address.
 9) [lc3_calling_convention_recursive] - This example shows how to test a subroutine that's recursive. More importantly how to test that subroutines are calling other subroutines correctly with the correct set of parameters.
+10) [subroutine_pass_by_regs] - This example shows how to test a subroutine using pass by registers rather than the lc3 calling convention. The example is a pass by registers version of the above example.
 
 [simple_add]: <simple_add>
 [simple_sum]: <simple_sum>
@@ -25,3 +26,4 @@ The examples should be viewed in the following order.
 [lc3_calling_convention_basic]: <lc3_calling_convention_basic>
 [lc3_calling_convention_extra]: <lc3_calling_convention_extra>
 [lc3_calling_convention_recursive]: <lc3_calling_convention_recursive>
+[subroutine_pass_by_regs]: <subroutine_pass_by_regs>
