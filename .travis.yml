@@ -1,14 +1,13 @@
-dist: bionic
+dist: focal
 language: python
-python:
-- 2.7
+python: 3.8
 script:
   - sudo add-apt-repository -y ppa:tricksterguy87/ppa-gt-cs2110
   - sudo apt-get update -qq
   - sudo apt-get install -y complx-tools
   - sudo apt-get install -y build-essential g++ cmake libboost-python-dev libboost-serialization-dev libboost-test-dev libglib2.0-dev castxml 
-  - pip install enum34 six scikit-build parameterized
-  - pip install pyLC3
+  - pip3 install enum34 six scikit-build parameterized
+  - pip3 install pyLC3
   - sudo ldconfig
   - mkdir build && cd build
   - cmake ..

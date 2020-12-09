@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.12)
 
 project(pylc3-examples)
 
-include(FindPythonInterp)
+find_package(Python3 COMPONENTS Interpreter REQUIRED)
 
 enable_testing()
 
@@ -10,7 +10,7 @@ function(make_test TEST TEST_FILE)
     get_filename_component(PARENT_DIR ${TEST_FILE} DIRECTORY)
     add_test(
         NAME ${TEST}
-        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_FILE}
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_FILE}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${PARENT_DIR}
     )
 endfunction(make_test TEST TEST_FILE)
