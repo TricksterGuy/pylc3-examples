@@ -12,3 +12,11 @@ install:
   - sudo apt install complx-tools
   - sudo pip3 install enum34 six scikit-build parameterized
   - sudo pip3 install pyLC3
+apt:
+  addons:
+    packages:
+      - build-essential
+      - g++
+      - cmake
+      - libboost-python-dev
+      - libboost-serialization-dev
