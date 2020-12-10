@@ -1,4 +1,0 @@
-enum34
-scikit-build
-parameterized
-pyLC3
