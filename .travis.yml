@@ -10,7 +10,7 @@ install:
 addons:
   apt:
     update: true
-    sources:
+    sourceline:
       - ppa:tricksterguy87/complx
     packages:
       - complx-tools
