@@ -9,14 +9,7 @@ before_install:
   - sudo add-apt-repository -y ppa:tricksterguy87/complx
   - sudo apt update -qq
 install:
+  - sudo apt install -y build-essential g++ cmake libboost-python-dev libboost-serialization-dev libboost-test-dev libglib2.0-dev castxml 
   - sudo apt install complx-tools
   - sudo pip3 install enum34 six scikit-build parameterized
   - sudo pip3 install pyLC3
-apt:
-  addons:
-    packages:
-      - build-essential
-      - g++
-      - cmake
-      - libboost-python-dev
-      - libboost-serialization-dev
