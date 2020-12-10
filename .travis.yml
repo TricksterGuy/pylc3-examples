@@ -11,5 +11,5 @@ before_install:
 install:
   - sudo apt install -y build-essential g++ cmake libboost-python-dev libboost-serialization-dev libboost-test-dev libglib2.0-dev castxml 
   - sudo apt install complx-tools
-  - sudo pip3 install enum34 six scikit-build parameterized
-  - sudo pip3 install pyLC3
+  - pip3 install enum34 six scikit-build parameterized
+  - pip3 install pyLC3
