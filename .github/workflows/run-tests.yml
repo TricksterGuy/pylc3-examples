@@ -1,0 +1,34 @@
+name: Run Tests
+
+# Controls when the action will run. 
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Add ppa for dependencies
+        run: sudo add-apt-repository -y ppa:tricksterguy87/complx
+      - name: apt-get update
+        run: sudo apt update -qq
+      - name: Install apt dependencies
+        run: sudo apt install -y build-essential g++ cmake libboost-python-dev libboost-serialization-dev libboost-test-dev libglib2.0-dev castxml complx-tools
+      - name: Install python packages
+        run: pip3 install enum34 six scikit-build parameterized
+      - name: Install pyLC3
+        run: pip3 install pyLC3
+      - name: Make build directory
+        run: mkdir build && cd build
+      - name: Run CMake
+        run:  cmake ..
+      - name: Run Tests
+        run: ctest -VV
