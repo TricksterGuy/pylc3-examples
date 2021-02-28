@@ -10,6 +10,11 @@ from parameterized import parameterized
 
 class SimpleAddTest(pyLC3.LC3UnitTestCase):
 
+    # Required if you want JSON output. This will generate a json file with the output per test assertion.
+    # Valid values are JsonOutputPerAssertion or JsonExpandedOutputPerAssertion.
+    # See 
+    json_report_func = pyLC3.unittests.lc3_unit_test_case.JsonOutputPerAssertion
+
     @parameterized.expand([
         (5,5),
         (3,6),
@@ -131,6 +136,9 @@ class SimpleAddTest(pyLC3.LC3UnitTestCase):
         # For each test case the JSON file will include the following 5 checks given the
         # assertions made in this test. For instance if the only test case was 19, 7 the
         # JSON file will look exactly like below.
+        
+        # Note to get JSON output cls.json_report_func needs to be set. See above for
+        # what to set this field to.
 
         #{
         #"SimpleAddTest":[
@@ -161,6 +169,9 @@ class SimpleAddTest(pyLC3.LC3UnitTestCase):
         # halted     - Did the program run correctly, this is also a hard assertion.
         # warnings   - Did the program run without causing a warning.
         # value: ANS - Was the value at location ANS correct.
+        
+        # Additionallty the assertion names can be renamed, by passing name to any assertXXX
+        # function.
 
 
 if __name__ == '__main__':
