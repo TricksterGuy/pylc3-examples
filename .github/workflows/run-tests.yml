@@ -21,7 +21,7 @@ jobs:
       - name: apt-get update
         run: sudo apt update -qq
       - name: Install apt dependencies
-        run: sudo apt install -y build-essential g++ cmake libboost-python-dev libboost-serialization-dev libboost-test-dev libglib2.0-dev castxml complx-tools
+        run: sudo apt install -y build-essential g++ cmake libboost-python-dev libboost-serialization-dev libboost-iostreams-dev libboost-test-dev libglib2.0-dev castxml complx-tools
       - name: Install python packages
         run: pip3 install enum34 six scikit-build parameterized
       - name: Install pyLC3
