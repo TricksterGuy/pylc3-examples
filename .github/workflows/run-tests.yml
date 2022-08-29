@@ -16,16 +16,15 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - name: Add ppa for dependencies
-        run: sudo add-apt-repository -y ppa:tricksterguy87/complx
-      - name: apt-get update
-        run: sudo apt update -qq
       - name: Install apt dependencies
-        run: sudo apt install -y build-essential g++ cmake libboost-python-dev libboost-serialization-dev libboost-iostreams-dev libboost-test-dev libglib2.0-dev castxml complx-tools
+        run: |
+            sudo add-apt-repository -y ppa:tricksterguy87/complx
+            sudo apt update -qq
+            sudo apt install -y build-essential g++ cmake libboost-python-dev libboost-serialization-dev libboost-iostreams-dev libboost-test-dev libglib2.0-dev castxml complx-tools 
       - name: Install python packages
-        run: sudo pip3 install enum34 six wheel
-      - name: Install pyLC3
-        run: sudo wheel install data/pyLC3-0.14.10-cp38-cp38-linux_x86_64.whl
+        run: |
+            sudo pip3 install enum34 six wheel
+            sudo wheel install data/pyLC3-0.14.10-cp38-cp38-linux_x86_64.whl
       - name: Run Tests
         run: |
             mkdir build && cd build
