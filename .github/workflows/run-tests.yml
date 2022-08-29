@@ -23,7 +23,7 @@ jobs:
       - name: Install apt dependencies
         run: sudo apt install -y build-essential g++ cmake libboost-python-dev libboost-serialization-dev libboost-iostreams-dev libboost-test-dev libglib2.0-dev castxml complx-tools
       - name: Install python packages
-        run: sudo pip3 install enum34 six
+        run: sudo pip3 install enum34 six wheel
       - name: Install pyLC3
         run: sudo wheel install data/pyLC3-0.14.10-cp38-cp38-linux_x86_64.whl
       - name: Run Tests
