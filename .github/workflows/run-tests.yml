@@ -23,9 +23,9 @@ jobs:
       - name: Install apt dependencies
         run: sudo apt install -y build-essential g++ cmake libboost-python-dev libboost-serialization-dev libboost-iostreams-dev libboost-test-dev libglib2.0-dev castxml complx-tools
       - name: Install python packages
-        run: pip3 install enum34 six scikit-build parameterized
+        run: sudo pip3 install enum34 six scikit-build parameterized
       - name: Install pyLC3
-        run: pip3 install pyLC3
+        run: sudo pip3 install pyLC3
       - name: Run Tests
         run: |
             mkdir build && cd build
