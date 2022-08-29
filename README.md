@@ -1,6 +1,6 @@
 # pylc3-examples
 
-Example pylc3 testers and lc-3 assembly code for documention for pyLC3 0.12.2
+Example pylc3 testers and lc-3 assembly code for documention for pyLC3 0.13.0
 
 The examples should be viewed in the following order.
 
