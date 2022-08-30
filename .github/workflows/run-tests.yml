@@ -24,7 +24,7 @@ jobs:
       - name: Install python packages
         run: |
             sudo pip3 install enum34 six wheel
-            sudo wheel install data/pyLC3-0.14.10-cp38-cp38-linux_x86_64.whl
+            sudo python3 -m pip install data/pyLC3-0.14.10-cp38-cp38-linux_x86_64.whl
       - name: Run Tests
         run: |
             mkdir build && cd build
